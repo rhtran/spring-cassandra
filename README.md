@@ -1,7 +1,7 @@
 
 ## Goals
 
-Create API for both internal & external to manage their user's roles & privileges.
+Movie list API
 
 ## Frameworks
 
