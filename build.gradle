@@ -1,0 +1,61 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.13.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+plugins {
+    id 'java'
+    id 'net.ltgt.apt' version '0.10'
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+/*
+ * Gets the version name from the latest Git tag
+ */
+def revision = 'git rev-list --count HEAD'.execute().text.trim()
+def hash = 'git rev-parse --short HEAD'.execute().text.trim()
+version = "r${revision}.${hash}"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+
+ext {
+    mapstructVersion = '1.2.0.Final'
+    lombokVersion = '1.18.0'
+    cassandraVersion = '3.3.2'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+
+    compile("com.datastax.cassandra:cassandra-driver-core:${cassandraVersion}")
+    compile("com.datastax.cassandra:cassandra-driver-mapping:${cassandraVersion}")
+
+    compile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
+    apt("org.mapstruct:mapstruct-processor:${mapstructVersion}")
+    apt("org.mapstruct:mapstruct-processor:${mapstructVersion}", "org.projectlombok:lombok")
+
+    compile("org.projectlombok:lombok:${lombokVersion}")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
