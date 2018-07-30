@@ -17,7 +17,7 @@ Implement movie list API using Spring Boot & Cassandra.
 ## Brief Cassandra Intro
 primary key, composite/compound key, partition key, and clustering key
 
-_Simple example_
+_Simple example_\
 `
 CREATE TABLE movie (
   id TEXT PRIMARY KEY,
@@ -40,7 +40,7 @@ _Primary key can be Composite_
 )
 `
 
-year is the PARTITION KEY
+year is the PARTITION KEY \
 genre is the CLUSTERING KEY
 
 Both partition and clustering key can be made by 1 or more columns.
