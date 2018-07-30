@@ -1,0 +1,10 @@
+database:
+  cassandra:
+    hosts: 192.168.99.100:9042
+    keyspace: show_business
+    cluster:
+      username:
+      password:
+    pooltimeout: 5000
+    heartbeat: 600
+    fetchsize: 100
