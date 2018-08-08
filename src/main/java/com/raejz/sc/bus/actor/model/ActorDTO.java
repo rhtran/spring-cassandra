@@ -1,6 +1,5 @@
 package com.raejz.sc.bus.actor.model;
 
-import java.util.Date;
 import lombok.Data;
 
 /**

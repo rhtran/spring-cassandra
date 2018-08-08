@@ -4,7 +4,6 @@ import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
 import com.raejz.sc.bus.common.model.BaseDoc;
-import java.util.Date;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
