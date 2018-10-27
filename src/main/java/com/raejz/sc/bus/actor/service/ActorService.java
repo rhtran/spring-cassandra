@@ -30,4 +30,14 @@ public class ActorService {
 
     return null;
   }
+
+  public Actor add(Actor actor) {
+
+    return null;
+  }
+
+  public Actor update(Actor actor) {
+
+    return null;
+  }
 }

@@ -1,6 +1,7 @@
 package com.raejz.sc.bus.actor.service;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.ResultSetFuture;
@@ -13,6 +14,7 @@ import com.datastax.driver.mapping.Result;
 import com.raejz.sc.bus.actor.model.Actor;
 import com.raejz.sc.bus.common.BaseRepository;
 import com.raejz.sc.config.Table;
+import com.raejz.sc.exception.DuplicatedException;
 import java.util.UUID;
 import lombok.Builder;
 import org.slf4j.Logger;
@@ -67,9 +69,42 @@ public class ActorRepository extends BaseRepository {
     }
   }
 
-  public Actor insert(Actor actor) {
+  /**
+   * update if exists; otherwise insert
+   * @param actor
+   * @return
+   */
+  private Actor save(Actor actor) {
+    Statement cqlStmt = QueryBuilder.update(Table.ACTOR.name())
+        .with(set("first_name", actor.getFirstName()))
+        .and(set("last_name", actor.getLastName()))
+        .and(set("modify_at", actor.getModifyAt()))
+        .and(set("create_at", actor.getCreateAt()))
+        .where(eq("id", actor.getId()));
 
-    return null;
+    try {
+      session.executeAsync(cqlStmt);
+      return actor;
+    } catch (Exception e) {
+      logger.warn(
+          String.format("Fail to save actor name: %s because %s", actor.getId(), e.getMessage()));
+      return null;
+    }
+  }
+
+  public Actor insert(Actor actor) {
+    logger.info(String.format("Insert new actor: %s.", actor.getId()));
+
+    Actor existedActor = findById(actor.getId());
+
+    if (existedActor != null) {
+      String message = String.format("The actor id: %s already existed.", actor.getId());
+      logger.info(message);
+      throw new DuplicatedException(message);
+    }
+
+    add(actor);
+    return save(actor);
   }
 
   public Actor update(Actor actor) {

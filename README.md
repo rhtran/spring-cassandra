@@ -78,7 +78,7 @@ In summary:
 | Path                          | Method | Description                      | Response                   |
 |-------------------------------|--------|----------------------------------|----------------------------|
 | /v1/sc/actors/{id}            | GET    | get actor by id                  | Actor json object          | 
-| /v1/sc/actors?movies=         | GET    | get actors by movide list        | List of actors json object | 
+| /v1/sc/actors?actors=         | GET    | get actors by movide list        | List of actors json object | 
 | /v1/sc/actors                 |        |                                  |                            |
 
 
