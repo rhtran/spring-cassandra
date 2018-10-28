@@ -16,7 +16,6 @@ import com.raejz.sc.bus.common.BaseRepository;
 import com.raejz.sc.config.Table;
 import com.raejz.sc.exception.DuplicatedException;
 import java.util.UUID;
-import lombok.Builder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,6 @@ public class ActorRepository extends BaseRepository {
    * @param session Cassandra session
    * @param mappingManager object mapper manager
    */
-  @Builder
   @Autowired
   public ActorRepository(Session session, MappingManager mappingManager) {
     super(session, mappingManager);

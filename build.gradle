@@ -4,15 +4,17 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "net.ltgt.gradle:gradle-apt-plugin:0.19"
     }
 }
 
+
 plugins {
-    id 'java'
-    id 'net.ltgt.apt' version '0.10'
+    id 'net.ltgt.apt' version '0.19'
 }
 
 apply plugin: 'java'
@@ -32,7 +34,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 ext {
     mapstructVersion = '1.2.0.Final'
-    lombokVersion = '1.18.0'
+    autovalueVersion = '1.6.3rc1'
     cassandraVersion = '3.3.2'
 }
 
@@ -52,10 +54,12 @@ dependencies {
     compile("com.datastax.cassandra:cassandra-driver-core:${cassandraVersion}")
     compile("com.datastax.cassandra:cassandra-driver-mapping:${cassandraVersion}")
 
+    compile("com.google.auto.value:auto-value-annotations:${autovalueVersion}")
+    annotationProcessor("com.google.auto.value:auto-value:${autovalueVersion}")
+
     compile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
     apt("org.mapstruct:mapstruct-processor:${mapstructVersion}")
-    apt("org.mapstruct:mapstruct-processor:${mapstructVersion}", "org.projectlombok:lombok")
+    apt("com.google.auto.value:auto-value:${autovalueVersion}")
 
-    compile("org.projectlombok:lombok:${lombokVersion}")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

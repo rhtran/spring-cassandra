@@ -1,11 +1,12 @@
 package com.raejz.sc.bus.actor.model;
 
-import lombok.Data;
+
+import com.google.auto.value.AutoValue;
 
 /**
  *
  */
-@Data
+@AutoValue
 public class ActorDTO {
   private String firstName;
   private String lastName;

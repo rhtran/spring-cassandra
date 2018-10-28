@@ -6,25 +6,18 @@ import com.raejz.sc.bus.common.model.BaseDoc;
 import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.LocalDateTime;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  */
 @Repository
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BaseRepository {
 
-  @NonNull
   protected Session session;
-
-  @NonNull
   protected MappingManager mappingManager;
 
-  public BaseRepository() {
+  public BaseRepository(Session session, MappingManager mappingManager) {
   }
 
   public void add(BaseDoc baseDoc) {

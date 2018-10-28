@@ -3,31 +3,39 @@ package com.raejz.sc.bus.actor.model;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.PartitionKey;
 import com.datastax.driver.mapping.annotations.Table;
+import com.google.auto.value.AutoValue;
 import com.raejz.sc.bus.common.model.BaseDoc;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  *
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
+@AutoValue
 @Table(name = "actor")
-public class Actor extends BaseDoc {
+public abstract class Actor extends BaseDoc {
   @NotNull
   @PartitionKey
-  private UUID id;
+  public abstract UUID getId();
 
   @Column(name = "first_name")
-  private String firstName;
+  public abstract String getFirstName();
 
   @Column(name = "last_name")
-  private String lastName;
+  public abstract String getLastName();
 
   @Column(name = "date_of_birth")
-  private String birthDate;
+  public abstract String getBirthDate();
 
-  private String bio;
+  public abstract String getBio();
+
+  @AutoValue.Builder
+  public abstract static class Build extends BaseDoc {
+    abstract Actor setId(UUID id);
+    abstract Actor setFirstname(String firstName);
+    abstract Actor setLastName(String lastName);
+    abstract Actor setBirthDate(String birthDate);
+    abstract Actor setBio(String bio);
+
+  }
 }
