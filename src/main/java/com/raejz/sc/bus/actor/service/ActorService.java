@@ -2,8 +2,6 @@ package com.raejz.sc.bus.actor.service;
 
 import com.raejz.sc.bus.actor.model.Actor;
 import java.util.UUID;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +9,14 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ActorService {
-
-  @NonNull
   private final ActorRepository actorRepository;
+
+
+  @Autowired
+  ActorService(ActorRepository actorRepository) {
+    this.actorRepository = actorRepository;
+  }
 
   /**
    * Retrieve actor by actor id.

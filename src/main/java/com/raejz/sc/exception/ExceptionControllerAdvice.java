@@ -4,8 +4,6 @@ import com.raejz.sc.exception.dto.ErrorDTO;
 import java.sql.Timestamp;
 import java.time.Clock;
 import java.time.LocalDateTime;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  *
  */
 @ControllerAdvice
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ExceptionControllerAdvice {
 
   @ExceptionHandler(Exception.class)

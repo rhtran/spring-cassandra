@@ -8,8 +8,6 @@ import com.raejz.sc.config.API;
 import com.raejz.sc.exception.DuplicatedException;
 import java.util.UUID;
 import javax.validation.Valid;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +27,18 @@ import org.springframework.web.context.request.async.DeferredResult;
  */
 @RestController
 @RequestMapping(value = API.V1 + "/actors")
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ActorController {
   private static final Logger logger = LoggerFactory.getLogger(ActorController.class);
 
-  @NonNull
   private final ActorService actorService;
 
-  @NonNull
   private final ActorMapper actorMapper;
+
+  @Autowired
+  ActorController(ActorService actorService, ActorMapper actorMapper) {
+    this.actorService = actorService;
+    this.actorMapper = actorMapper;
+  }
 
   @GetMapping(value = "/{id}",
       produces = MediaType.APPLICATION_JSON_VALUE)
