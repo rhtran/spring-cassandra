@@ -6,10 +6,10 @@ Implement movie list API using Spring Boot & Cassandra.
 ## Frameworks & Libraries
 
 1. Java 8
-2. Spring Boot 1.5.14
+2. Spring Boot 2.2.5
 3. Mapstruct (Object Mapper)
 5. Spring Test
-6. Gradle 4.8
+6. Gradle 6.x
 
 ## Datastore
 1. Cassandra 3.x

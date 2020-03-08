@@ -1,23 +1,27 @@
-buildscript {
-    ext {
-        springBootVersion = '1.5.14.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
 plugins {
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
-    id 'net.ltgt.apt' version '0.10'
+    id 'net.ltgt.apt' version '0.20'
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    mavenLocal()
+}
 
 /*
  * Gets the version name from the latest Git tag
@@ -31,9 +35,9 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 
 ext {
-    mapstructVersion = '1.2.0.Final'
-    lombokVersion = '1.18.0'
-    cassandraVersion = '3.3.2'
+    mapstructVersion = '1.3.1.Final'
+    cassandraVersion = '3.8.0'
+    springfoxSwagger2 = '2.9.2'
 }
 
 repositories {
@@ -46,16 +50,32 @@ configurations {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web')
-    compile("org.springframework.boot:spring-boot-starter-jetty")
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation("org.springframework.boot:spring-boot-starter-jetty")
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 
-    compile("com.datastax.cassandra:cassandra-driver-core:${cassandraVersion}")
-    compile("com.datastax.cassandra:cassandra-driver-mapping:${cassandraVersion}")
+    implementation 'io.springfox:springfox-swagger2:3.0.0-SNAPSHOT'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0-SNAPSHOT'
 
-    compile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
-    apt("org.mapstruct:mapstruct-processor:${mapstructVersion}")
-    apt("org.mapstruct:mapstruct-processor:${mapstructVersion}", "org.projectlombok:lombok")
+    implementation("com.datastax.cassandra:cassandra-driver-core:${cassandraVersion}")
+    implementation("com.datastax.cassandra:cassandra-driver-mapping:${cassandraVersion}")
 
-    compile("org.projectlombok:lombok:${lombokVersion}")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+//    implementation("com.datastax.oss:java-driver-core:${cassandraVersion}")
+//    implementation("com.datastax.oss:java-driver-query-builder:${cassandraVersion}")
+//    implementation("com.datastax.oss:java-driver-mapper-runtime:${cassandraVersion}")
+
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+test {
+    useJUnitPlatform()
 }
